@@ -29,7 +29,64 @@ const (
 	Retired     = 3
 )
 
+type Hosts map[string]int
+
 func main() {
 	servers := []string{"darkstar", "aiur", "omicron", "w359", "baseline"}
+	hosts := make(Hosts)
+
+	for _, s := range servers {
+		hosts[s] = Online
+	}
+	hosts.PrintStatus()
+	hosts.CountByStatus()
 }
 
+func (h Hosts) PrintStatus() {
+	fmt.Println("Server status:")
+	for k, v := range h {
+		fmt.Printf("%s status : %s \n", k, intToString(v))
+	}
+
+}
+
+func (h Hosts) Count() int {
+	return len(h)
+}
+
+func (h Hosts) CountByStatus() {
+	statusMap := make(map[string]int)
+
+	for _, s := range h {
+		fmt.Print(s)
+		code := intToString(s)
+		if count, exists := statusMap[code]; exists {
+			statusMap[code] = count + 1
+		} else {
+			statusMap[code] = 1
+		}
+	}
+
+	fmt.Print(statusMap)
+	fmt.Println("Server status:")
+	for k, v := range statusMap {
+		fmt.Printf("%s : %v \n", k, v)
+	}
+	fmt.Println("-------------")
+}
+
+func intToString(a int) string {
+	switch a {
+	case Online:
+		return "Online"
+	case Offline:
+		return "Offline"
+	case Maintenance:
+		return "Maintainance"
+	case Retired:
+		return "Retired"
+	default:
+		return "Not implemented"
+	}
+
+}
