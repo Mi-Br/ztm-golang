@@ -40,6 +40,15 @@ func main() {
 	}
 	hosts.PrintStatus()
 	hosts.CountByStatus()
+
+	hosts["darkstar"] = Retired
+	hosts["aiur"] = Offline
+	hosts.PrintStatus()
+
+	for s := range hosts {
+		hosts[s] = Maintenance
+	}
+	hosts.PrintStatus()
 }
 
 func (h Hosts) PrintStatus() {
@@ -58,7 +67,6 @@ func (h Hosts) CountByStatus() {
 	statusMap := make(map[string]int)
 
 	for _, s := range h {
-		fmt.Print(s)
 		code := intToString(s)
 		if count, exists := statusMap[code]; exists {
 			statusMap[code] = count + 1
@@ -67,10 +75,9 @@ func (h Hosts) CountByStatus() {
 		}
 	}
 
-	fmt.Print(statusMap)
 	fmt.Println("Server status:")
 	for k, v := range statusMap {
-		fmt.Printf("%s : %v \n", k, v)
+		fmt.Printf("\t %s : %v \n", k, v)
 	}
 	fmt.Println("-------------")
 }
