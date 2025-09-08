@@ -12,7 +12,7 @@
 //  - Print out the statistic change within each function
 //  - Execute each function at least once
 
-package main
+package player
 
 import (
 	"fmt"
@@ -28,7 +28,13 @@ type Player struct {
 
 func (p *Player) Consume(h, e int) {
 	p.Health += h
+	if p.Health > p.MaxHealth {
+		p.Health = p.MaxHealth
+	}
 	p.Energy += e
+	if p.Energy > p.MaxEnergy {
+		p.Energy = p.MaxEnergy
+	}
 }
 
 func (p Player) String() string {
